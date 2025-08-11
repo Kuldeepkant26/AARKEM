@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { MyContext } from '../context/Myprovider'
 import ProductsSection from '../components/ProductsSection'
 import { Search, Filter, X } from 'lucide-react'
@@ -8,6 +8,11 @@ function ProductsPage() {
     const { products, categories } = useContext(MyContext)
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedCategory, setSelectedCategory] = useState('All')
+
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }, []);
 
     const filteredProducts = products.filter(product => {
         const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

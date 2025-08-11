@@ -27,6 +27,9 @@ function ProductDetailPage() {
     const [showFullDescription, setShowFullDescription] = useState(false)
 
     useEffect(() => {
+        // Scroll to top when navigating to product detail
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        
         const foundProduct = products.find(p => p.id === parseInt(id))
         if (foundProduct) {
             setProduct(foundProduct)
@@ -48,7 +51,7 @@ function ProductDetailPage() {
 
     const handleSimilarProductClick = (productId) => {
         navigate(`/product/${productId}`)
-        window.scrollTo(0, 0)
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
 
     if (!product) {

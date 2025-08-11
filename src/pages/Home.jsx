@@ -24,6 +24,11 @@ function Home() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }, []);
+
     return (
         <div className='home-page'>
             {/* Gate Animation Container */}
