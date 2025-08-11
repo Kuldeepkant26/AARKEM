@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* Safer global reset: keep box-sizing but don't zero out all margins/paddings.
+   Tailwind utilities (mt-*, p-*, etc.) should control spacing explicitly. */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0; /* avoid default body margin without breaking component spacing */
+}
+
+/* Media elements sane defaults */
+img, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}

@@ -1,0 +1,236 @@
+.home-page {
+    position: relative;
+    min-height: 200vh; /* Allow enough scroll height for animation */
+    
+    /* Hero background moved to entire home page */
+    --brand: 1 191 189; /* #01BFBD */
+    --bg: 255 255 255; /* white */
+    --ink: 15 23 42;   /* slate-900 */
+    background-color: rgb(var(--bg));
+}
+
+/* Add the background layers to home-page */
+.home-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    /* Gradient background with subtle noise */
+    background: radial-gradient(900px 500px at 15% 8%, rgba(1,191,189,0.12), transparent 60%),
+                radial-gradient(700px 420px at 85% 28%, rgba(1,191,189,0.10), transparent 60%),
+                radial-gradient(1000px 500px at 50% 95%, rgba(1,191,189,0.08), transparent 65%),
+                linear-gradient(180deg, rgba(2,132,199,0.03), rgba(255,255,255,0));
+}
+
+.home-page::after {
+    content: "";
+    position: fixed;
+    inset: -20% -10% -30% -10%;
+    z-index: -1;
+    /* Soft aurora sweep */
+    background: conic-gradient(from 210deg at 40% 30%, rgba(1,191,189,0.16), rgba(59,130,246,0.10), rgba(1,191,189,0.12), rgba(2,132,199,0.10), rgba(1,191,189,0.16));
+    filter: blur(70px) saturate(130%);
+    opacity: 0.6;
+    mix-blend-mode: soft-light;
+}
+
+/* Add grid pattern */
+.home-page .main-content::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: linear-gradient(rgba(2,6,23,0.06) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(2,6,23,0.06) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.14;
+}
+
+/* Gate Container - Fixed positioning for the gate effect */
+.gate-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    pointer-events: none; /* Allow scrolling through gates */
+    overflow: hidden; /* Hide gates when they move off screen */
+}
+
+/* Left Gate */
+.home-page-gate-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50vw;
+    height: 100vh;
+    background: linear-gradient(135deg, rgb(1, 191, 189) 0%, rgba(1, 191, 189, 0.95) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: white;
+    box-shadow: 2px 0 30px rgba(1, 191, 189, 0.4);
+    padding-right: 2rem;
+}
+
+/* Right Gate */
+.home-page-gate-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50vw;
+    height: 100vh;
+    background: linear-gradient(135deg, rgb(1, 191, 189) 0%, rgba(1, 191, 189, 0.95) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+    box-shadow: -2px 0 30px rgba(1, 191, 189, 0.4);
+    padding-left: 2rem;
+}
+
+/* Gate Content Styling */
+.gate-content {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.gate-content--left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gate-content--right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Shopping Bag Icon */
+.logo-shopping-bag {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-shopping-bag svg {
+    width: 100px;
+    height: 100px;
+    stroke-width: 1.5;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+}
+
+/* Logo Text */
+.logo-text {
+    text-align: left;
+}
+
+.logo-text h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    line-height: 0.9;
+}
+
+.logo-text p {
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0;
+    opacity: 0.95;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Main Content */
+.main-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Scroll Spacer - Creates space for the gate animation */
+.scroll-spacer {
+    height: 110vh; /* Increased height so gates fully open before Hero appears */
+    background: transparent;
+}
+
+/* Sections */
+/* Section 1 replaced by Hero component */
+
+.home-page .section2 {
+    width: 100%;
+    height: 500px;
+    background: linear-gradient(45deg, #a8edea 0%, #fed6e3 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    text-align: center;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.home-page .section2 h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.home-page .section2 p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+.home-page .section3 {
+    width: 100%;
+    height: 500px;
+    border: 1px solid salmon;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .logo-shopping-bag {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .logo-shopping-bag svg {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .logo-text h1 {
+        font-size: 2.5rem;
+    }
+    
+    .logo-text p {
+        font-size: 1rem;
+    }
+    
+    .home-page-gate-left {
+        padding-right: 1rem;
+    }
+    
+    .home-page-gate-right {
+        padding-left: 1rem;
+    }
+    
+    .home-page .section2 h2 {
+        font-size: 2rem;
+    }
+    
+    .home-page .section2 p {
+        font-size: 1rem;
+    }
+    
+    .scroll-spacer {
+        height: 200vh; /* Increased height so gates fully open before Hero appears */
+        background: transparent;
+    }
+}
