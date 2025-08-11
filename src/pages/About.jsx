@@ -9,7 +9,7 @@ const pharmaceuticalVideo = 'https://videos.pexels.com/video-files/3195394/31953
 // Image URLs for pharmaceutical/chemical industry
 const LabImage = 'https://images.unsplash.com/photo-1576671081837-49000212a370?q=80&w=1596&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 const ManufacturingImg = 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.1';
-const QualityControl = 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2031&auto=format&fit=crop&ixlib=rb-4.0.1';
+const QualityControl = 'https://images.squarespace-cdn.com/content/v1/656a9a0ca411263d6a617445/a2e0419c-4a4c-4773-a2ab-cf68c2e43b76/background.jpg';
 const ResearchLab = 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?q=80&w=1704&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 const ChemicalPlant = 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.1';
 const Laboratory = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.1';
