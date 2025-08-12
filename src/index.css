@@ -14,8 +14,3 @@ body {
   margin: 0; /* avoid default body margin without breaking component spacing */
 }
 
-/* Media elements sane defaults */
-img, video, canvas, svg {
-  display: block;
-  max-width: 100%;
-}
