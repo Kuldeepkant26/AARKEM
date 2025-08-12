@@ -23,7 +23,7 @@ function Hero() {
   }
 
   return (
-  <section className="hero relative min-h-[100svh] flex items-center overflow-hidden isolate bg-transparent">
+    <section id="hero" className="hero relative min-h-screen flex items-center overflow-hidden isolate bg-transparent pt-20">
       {/* Background layers removed - now transparent */}
 
       {/* Floating decorative pills */}
@@ -37,8 +37,8 @@ function Hero() {
         <motion.div initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 18, ease: 'linear' }} className="floating-ring" />
       </motion.div>
 
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10 relative w-full">
-  <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div className="container  sm:px-4 md:px-6 lg:px-8 xl:px-10 relative w-full">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Left: Copy */}
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }} variants={stagger} className="relative order-2 lg:order-1 mt-8 lg:mt-0">
             <motion.div variants={fadeIn} className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-[#01BFBD]/5 px-3 py-1 backdrop-blur-md shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
@@ -85,30 +85,30 @@ function Hero() {
           </motion.div>
 
           {/* Right: Medicine Image */}
-          <motion.div 
+          <motion.div
             style={{ y: floatYImage }}
-            initial={{ opacity: 0, scale: 0.96 }} 
-            whileInView={{ opacity: 1, scale: 1 }} 
-            viewport={{ once: true, amount: 0.3 }} 
-            transition={{ duration: 0.8, ease: 'easeOut' }} 
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
             className="relative order-1 lg:order-2 mb-6 lg:mb-0"
           >
-            <motion.div 
+            <motion.div
               className="relative"
-              animate={{ 
+              animate={{
                 y: [0, -20, 0],
                 rotate: [0, 2, -2, 0],
               }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 6, 
+              transition={{
+                repeat: Infinity,
+                duration: 6,
                 ease: 'easeInOut',
                 repeatType: 'loop'
               }}
             >
-              <img 
-                src={medicenImage} 
-                alt="Medicine and Healthcare Products" 
+              <img
+                src={medicenImage}
+                alt="Medicine and Healthcare Products"
                 className="w-full h-auto max-w-md mx-auto object-contain drop-shadow-2xl"
               />
             </motion.div>

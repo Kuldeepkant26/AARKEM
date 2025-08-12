@@ -1,9 +1,8 @@
 import { useLayoutEffect, useRef, useCallback } from "react";
-import Lenis from "lenis";
 
 export const ScrollStackItem = ({ children, itemClassName = "" }) => (
   <div
-    className={`scroll-stack-card relative w-full h-80 my-8 p-12 rounded-[40px] shadow-[0_0_30px_rgba(0,0,0,0.1)] box-border origin-top will-change-transform ${itemClassName}`.trim()}
+    className={`scroll-stack-card relative w-full min-h-screen box-border origin-top will-change-transform ${itemClassName}`.trim()}
     style={{
       backfaceVisibility: "hidden",
       transformStyle: "preserve-3d",
@@ -30,7 +29,6 @@ const ScrollStack = ({
   const scrollerRef = useRef(null);
   const stackCompletedRef = useRef(false);
   const animationFrameRef = useRef(null);
-  const lenisRef = useRef(null);
   const cardsRef = useRef([]);
   const lastTransformsRef = useRef(new Map());
   const isUpdatingRef = useRef(false);
@@ -165,34 +163,32 @@ const ScrollStack = ({
     updateCardTransforms();
   }, [updateCardTransforms]);
 
-  const setupLenis = useCallback(() => {
+  const setupNativeScroll = useCallback(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-    const lenis = new Lenis({
-      wrapper: scroller,
-      content: scroller.querySelector(".scroll-stack-inner"),
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 2,
-      infinite: false,
-      wheelMultiplier: 1,
-      lerp: 0.1,
-      syncTouch: true,
-      syncTouchLerp: 0.075,
-    });
-
-    lenis.on("scroll", handleScroll);
-
-    const raf = (time) => {
-      lenis.raf(time);
-      animationFrameRef.current = requestAnimationFrame(raf);
+    // Use native scroll instead of Lenis to avoid trapping scroll events
+    scroller.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Handle wheel events to allow escape scrolling
+    const handleWheel = (e) => {
+      const { scrollTop, scrollHeight, clientHeight } = scroller;
+      const atTop = scrollTop <= 0;
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      
+      // Allow scroll to propagate to parent when at boundaries
+      if ((atTop && e.deltaY < 0) || (atBottom && e.deltaY > 0)) {
+        // Don't prevent default - let it bubble to parent
+        return;
+      }
     };
-    animationFrameRef.current = requestAnimationFrame(raf);
-
-    lenisRef.current = lenis;
-    return lenis;
+    
+    scroller.addEventListener('wheel', handleWheel, { passive: true });
+    
+    return () => {
+      scroller.removeEventListener('scroll', handleScroll);
+      scroller.removeEventListener('wheel', handleWheel);
+    };
   }, [handleScroll]);
 
   useLayoutEffect(() => {
@@ -216,16 +212,13 @@ const ScrollStack = ({
       card.style.webkitPerspective = "1000px";
     });
 
-    setupLenis();
+    setupNativeScroll();
 
     updateCardTransforms();
 
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
-      }
-      if (lenisRef.current) {
-        lenisRef.current.destroy();
       }
       stackCompletedRef.current = false;
       cardsRef.current = [];
@@ -243,16 +236,17 @@ const ScrollStack = ({
     rotationAmount,
     blurAmount,
     onStackComplete,
-    setupLenis,
+    setupNativeScroll,
     updateCardTransforms,
   ]);
 
   return (
     <div
-      className={`relative w-full h-full overflow-y-auto overflow-x-visible ${className}`.trim()}
+  className={`relative w-full h-screen overflow-y-auto overflow-x-visible ${className}`.trim()}
       ref={scrollerRef}
       style={{
-        overscrollBehavior: "contain",
+  // Allow scroll chaining so users can reach sections outside the stack
+  overscrollBehavior: "auto",
         WebkitOverflowScrolling: "touch",
         scrollBehavior: "smooth",
         WebkitTransform: "translateZ(0)",
@@ -260,7 +254,7 @@ const ScrollStack = ({
         willChange: "scroll-position",
       }}
     >
-      <div className="scroll-stack-inner pt-[20vh] px-20 pb-[50rem] min-h-screen">
+            <div className="scroll-stack-inner pb-[50rem] min-h-screen">
         {children}
         {/* Spacer so the last pin can release cleanly */}
         <div className="scroll-stack-end w-full h-px" />

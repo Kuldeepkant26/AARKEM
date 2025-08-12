@@ -7,7 +7,8 @@ const Ribbons = ({
   baseSpring = 0.03,
   baseFriction = 0.9,
   baseThickness = 30,
-  offsetFactor = 0.05,
+  // Controls horizontal spacing between ribbons (smaller = tighter)
+  offsetFactor = 0.02,
   maxAge = 500,
   pointCount = 50,
   speedMultiplier = 0.6,
@@ -15,6 +16,10 @@ const Ribbons = ({
   enableShaderEffect = false,
   effectAmplitude = 2,
   backgroundColor = [0, 0, 0, 0],
+  opacity = 0.35,
+  // Small random jitter per ribbon to avoid perfect overlap
+  offsetJitterX = 0.005,
+  offsetJitterY = 0.02,
 }) => {
   const containerRef = useRef(null);
 
@@ -120,10 +125,10 @@ const Ribbons = ({
     colors.forEach((color, index) => {
       const spring = baseSpring + (Math.random() - 0.5) * 0.05;
       const friction = baseFriction + (Math.random() - 0.5) * 0.05;
-      const thickness = baseThickness + (Math.random() - 0.5) * 3;
+      const thickness = baseThickness + (Math.random() - 0.5) * 1.5;
       const mouseOffset = new Vec3(
-        (index - center) * offsetFactor + (Math.random() - 0.5) * 0.01,
-        (Math.random() - 0.5) * 0.1,
+        (index - center) * offsetFactor + (Math.random() - 0.5) * offsetJitterX,
+        (Math.random() - 0.5) * offsetJitterY,
         0,
       );
 
@@ -141,14 +146,14 @@ const Ribbons = ({
       }
       line.points = points;
 
-      line.polyline = new Polyline(gl, {
+    line.polyline = new Polyline(gl, {
         points,
         vertex,
         fragment,
         uniforms: {
           uColor: { value: new Color(color) },
           uThickness: { value: thickness },
-          uOpacity: { value: 1.0 },
+      uOpacity: { value: opacity },
           uTime: { value: 0.0 },
           uEnableShaderEffect: { value: enableShaderEffect ? 1.0 : 0.0 },
           uEffectAmplitude: { value: effectAmplitude },
@@ -245,7 +250,7 @@ const Ribbons = ({
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 pointer-events-none z-0"
+      className="fixed inset-0 pointer-events-none z-[999]"
       aria-hidden="true"
     />
   );

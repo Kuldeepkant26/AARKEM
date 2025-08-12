@@ -9,7 +9,6 @@
 /* Container fallback (in case Tailwind container plugin isn't active) */
 .hero .container {
   width: 100%;
-  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -133,11 +132,13 @@
   align-items: center;
   gap: 10px;
   padding: 0.75rem 1rem;
+  border: none;
   border-radius: 12px;
   font-weight: 700;
   color: rgb(15,23,42);
   transition: all 200ms ease;
   white-space: nowrap;
+  cursor: pointer;
 }
 .hero .btn-primary {
   color: white;
@@ -147,7 +148,7 @@
 .hero .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 42px rgba(1,191,189,0.36); }
 .hero .btn-secondary {
   background: linear-gradient(135deg, rgba(2,6,23,0.04), rgba(2,6,23,0.02));
-  border: 1px solid rgba(2,6,23,0.08);
+  border: 1px solid rgba(2,6,23,0.08) !important;
   backdrop-filter: blur(8px);
 }
 .hero .btn-secondary:hover { background: linear-gradient(135deg, rgba(2,6,23,0.06), rgba(2,6,23,0.03)); }

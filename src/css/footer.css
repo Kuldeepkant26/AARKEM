@@ -4,6 +4,7 @@
   color: #cbd5e1;
   position: relative;
   overflow: hidden;
+  margin-top: 2rem;
 }
 
 .footer::before {

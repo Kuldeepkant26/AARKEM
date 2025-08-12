@@ -5,6 +5,8 @@ import '../css/navbar.css'
 
 function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
+    const [isNavbarVisible, setIsNavbarVisible] = useState(true)
+    const [lastScrollY, setLastScrollY] = useState(0)
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const { getTotalItems, openCart } = useCart()
     const location = useLocation()
@@ -12,16 +14,45 @@ function Navbar() {
     // Check if we're on the About page
     const isAboutPage = location.pathname === '/about'
 
-    // Handle scroll effect for navbar background
+    // Handle scroll effect for navbar background and visibility
     useEffect(() => {
         const handleScroll = () => {
-            const scrolled = window.scrollY > 100
+            const currentScrollY = window.scrollY
+            
+            // Background opacity based on scroll
+            const scrolled = currentScrollY > 100
             setIsScrolled(scrolled)
+            
+            // Navbar visibility based on scroll direction
+            if (currentScrollY < 50) {
+                // Always show navbar at the very top
+                setIsNavbarVisible(true)
+            } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                // Scrolling down & past threshold - hide navbar
+                setIsNavbarVisible(false)
+            } else if (currentScrollY < lastScrollY) {
+                // Scrolling up - show navbar
+                setIsNavbarVisible(true)
+            }
+            
+            setLastScrollY(currentScrollY)
         }
 
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
+        // Throttle scroll events for better performance
+        let ticking = false
+        const throttledHandleScroll = () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    handleScroll()
+                    ticking = false
+                })
+                ticking = true
+            }
+        }
+
+        window.addEventListener('scroll', throttledHandleScroll, { passive: true })
+        return () => window.removeEventListener('scroll', throttledHandleScroll)
+    }, [lastScrollY])
 
     // Close cart when clicking outside
     useEffect(() => {
@@ -49,7 +80,13 @@ function Navbar() {
 
     return (
         <>
-            <nav className={`navbar ${isScrolled ? 'navbar--scrolled' : ''}`}>
+            <nav 
+                className={`navbar ${isScrolled ? 'navbar--scrolled' : ''}`}
+                style={{
+                    transform: isNavbarVisible ? 'translateY(0)' : 'translateY(-100%)',
+                    transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
+            >
                 <div className="navbar__container">
                     {/* Logo */}
                     <Link to="/" className="navbar__logo">
@@ -63,7 +100,18 @@ function Navbar() {
 
                     {/* Center Navigation - Hidden on mobile */}
                     <div className="navbar__nav">
-                        <Link to="/" className="navbar__nav-link">Home</Link>
+                        <Link
+                            to="/"
+                            className="navbar__nav-link"
+                            onClick={(e) => {
+                                if (location.pathname === '/') {
+                                    e.preventDefault();
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                }
+                            }}
+                        >
+                            Home
+                        </Link>
                         <a href="/about" className="navbar__nav-link">About</a>
                         <Link to="/products" className="navbar__nav-link">Products</Link>
                     </div>
